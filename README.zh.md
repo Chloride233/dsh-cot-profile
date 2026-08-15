@@ -1,0 +1,118 @@
+# dsh-cot-profile
+
+面向 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 的实时思维链轨迹画像插件：边流式边统计 reasoning 里的签名措辞指标（`let me` / `we` / `let's` / `I`），对照内置基线判断当前会话的轨迹画像族，并可选的按会话记录测量聚合数据。
+
+## 先读：关于"推断模型"的诚实边界
+
+措辞指纹描述的是 **(模型 × 装配)** 组合——system prompt、工具 schema、reasoning effort——**不是模型身份**。来源研究（[`xiaobright/modeltest`](https://github.com/xiaobright/modeltest)）证明：接口变化时，不同模型会呈现完全相同的措辞模式（V4 Flash 反例：minimal 装配下与 Pro 同样 `we` 高、`let me` 为零，但能力不同档）。
+
+因此本插件回答的是**"当前会话的行为像哪个轨迹画像族"**（minimal-like / standard-like / gray-like），并把原始指标并列展示，结论由你自己下。**不做"这就是某模型"的断言**。
+
+## 功能
+
+- **实时 UI**：会话头部徽章 + 可折叠悬浮面板，由会话投影推送帧驱动——无轮询、无自定义 RPC。
+- **指标**：`let me` / `we` / `let's` / `I` 计数、首行模式（`We need…` / `The user wants…` / `Let me…` / `I…`）、块长中位数、阶段性可见回复数。
+- **判定**：加权距离匹配内置基线画像 + 置信度；满 N 块（默认 10，可配置）才下结论。
+- **可扩展**：画像族与各维度权重均可编辑（Web 设置页或 cordis 配置）。
+- **记录模式**：会话结束时落一条聚合 JSON 记录（事件和/或 JSONL）——用真实数据校准基线的测量仪器。
+- **隐私**：只有聚合数据离开 host 计算；原始思维链文本从不记录、从不传输。
+
+## 安装
+
+```bash
+dsh plugin --profile web add github:Chloride233/dsh-cot-profile
+```
+
+核心插件（徽章、面板、记录）立即可用。**Web 设置页**额外需要一个对 DeepSeek Harness 0.1.0-rc.6 的临时一次性补丁（见下文）；不打补丁也可用——改用 cordis 配置。
+
+## 配置
+
+配置在 `cot-profile` 插件行（本仓库 `cordis.patch.yml` 或你的 profile 的 cordis.yml）。默认值：
+
+```yaml
+- id: cot-profile
+  config:
+    minBlocksForJudgment: 10   # 满 N 块 reasoning 才给判定
+    badge: true                # 会话头部徽章
+    panel: true                # 右侧悬浮面板
+    weights: {}                # 各维度权重；{} = 内置默认
+    profiles: []               # 自定义画像族；[] = 内置基线
+    record:
+      emit: true               # 会话结束时发 cot-profile/record 事件
+      file: ''                 # 可选 JSONL 路径，如 ~/.dsh/cot-profile/records.jsonl
+```
+
+权重默认（`let me`/`we` 权重最高，对应研究中的分离度）：
+
+```json
+{ "letMe100": 3, "we100": 3, "lets100": 2, "i100": 1.5,
+  "firstLineWeNeed": 1.5, "firstLineUserWants": 1, "firstLineLetMe": 1.5,
+  "firstLineI": 1, "firstLineOther": 0.5, "p50BlockChars": 1, "visibleReplies": 1.5 }
+```
+
+自定义画像族形如 `{ "id", "name", "description", "vector" }`，vector 可取任意上述维度；想追踪的每个模型/版本加一个画像族即可参与判定。
+
+## 可选：Web 设置页
+
+DeepSeek Harness 0.1.0-rc.6 只对浏览器暴露一份硬编码的 settings 命名空间白名单（`dsh-host-apiproxy` 的 `WEB_SETTINGS_NAMESPACES`；其源码注释称把该决策挪进 `settings.register()` 是 deferred work）。上游支持插件自声明暴露之前，运行：
+
+```bash
+sh scripts/install-patch.sh
+```
+
+脚本把已安装的 `dsh-host-apiproxy` 复制进 web profile 并把 `cot-profile` 加入白名单。**幂等、可选**——不打补丁插件也完整可用。注意事项：
+
+- profile 里执行 `pnpm install` 会移除复制品；之后重新运行本脚本即可。
+- dsh 升级可能改变白名单布局；脚本找不到目标结构时会明确报错，绝不静默失效。
+
+## 事件与数据
+
+| 出口 | 形态 |
+| --- | --- |
+| 投影键 | `cot-profile`——任意会话级槽位用 `useProjection('cot-profile')` 读取（类型见 `lib/index.d.ts` 的 `CotProfileView`） |
+| `cot-profile/update` | `{ sessionId, blocks, counts, firstLines, p50BlockChars, visibleReplies, vector, judgment, ui, revision, seq }`（500ms 节流） |
+| `cot-profile/record` | 会话结束时的聚合记录（仅当会话有 ≥1 个 reasoning 块） |
+
+### 记录 schema（v1）
+
+```jsonc
+{
+  "v": 1,
+  "sessionId": "...",
+  "startedAt": 1720000000000,
+  "endedAt": 1720000100000,
+  "preset": "anchored-standard",        // 已知时（agent-preset/selected）
+  "provider": "deepseek",               // 已知时（agent/request 捕获）
+  "model": "deepseek-v4-pro",           // 已知时
+  "reasoningBlocks": 193,
+  "indicators": { "letMe": 1, "we": 179, "lets": 88, "i": 17,
+                  "p50BlockChars": 111, "visibleReplies": 1,
+                  "firstLines": { "we-need": 120, "other": 73 } },
+  "vector": { /* 归一化指标向量 */ },
+  "judgment": { "family": "minimal-like", "confidence": 0.87, "distances": {} }
+}
+```
+
+**隐私边界（硬性要求）**：记录只含聚合指标，绝不含原始思维链文本。文件记录默认关闭、显式开启。
+
+## 开发
+
+```bash
+npm test          # node --test test/analyzer.test.js（零依赖）
+```
+
+- `lib/analyzer.js` — 纯分析逻辑（tokenize、计数、首行分类、向量、距离、判定）
+- `lib/profiles.js` — 内置基线（标注为**估算值**——用记录模式数据校准）
+- `lib/index.js` — host：会话投影、事件、记录落盘
+- `lib/client.js` — 徽章、面板、设置页
+
+## Upstream wishlist
+
+以下均为 DeepSeek Harness 0.1.0-rc.6 的临时缺口，本插件暂以变通方式绕过：
+
+1. **插件自声明 settings 暴露** —— 把命名空间白名单从 `dsh-host-apiproxy` 挪进 `settings.register()`，让插件免补丁暴露自己的配置。
+2. **右侧列的可加槽位** —— 提供 `conversation.details.panel` 这类列表席位，让悬浮面板升级为原生右侧列。
+
+## License
+
+MIT，见 [LICENSE](./LICENSE)。轨迹方法论源自 [`xiaobright/dsh-anchored-standard`](https://github.com/xiaobright/dsh-anchored-standard) 与 [`xiaobright/modeltest`](https://github.com/xiaobright/modeltest)（MIT，仅使用公开聚合数据）。
