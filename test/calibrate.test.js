@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { groupRecords, aggregateRecords, profileFromGroup, profileIdFromGroup, VECTOR_DIMS } from '../lib/calibrate.js';
+import { groupRecords, aggregateRecords, profileFromGroup, profileIdFromGroup, resolveRecordPath, VECTOR_DIMS } from '../lib/calibrate.js';
 
 const BASE_VECTOR = { letMe100: 0, we100: 126, lets100: 60, i100: 10, p50BlockChars: 182, visibleReplies100: 0.5 };
 
@@ -62,6 +62,15 @@ test('aggregateRecords tolerates missing vector dims and malformed values', () =
 
 test('aggregateRecords handles an empty input', () => {
   assert.deepEqual(aggregateRecords([]), []);
+});
+
+test('resolveRecordPath expands leading tilde to the home directory', () => {
+  assert.equal(resolveRecordPath('', '/home/u'), '');
+  assert.equal(resolveRecordPath('~', '/home/u'), '/home/u');
+  assert.equal(resolveRecordPath('~/x/y.jsonl', '/home/u'), '/home/u/x/y.jsonl');
+  assert.equal(resolveRecordPath('/abs/path.jsonl', '/home/u'), '/abs/path.jsonl');
+  assert.equal(resolveRecordPath('rel/path.jsonl', '/home/u'), 'rel/path.jsonl');
+  assert.equal(resolveRecordPath('~user/x', '/home/u'), '~user/x'); // only leading ~/ expands
 });
 
 test('profileIdFromGroup derives a stable id', () => {

@@ -40,7 +40,7 @@ dsh plugin --profile web add github:Chloride233/dsh-cot-profile
     profiles: []               # 自定义画像族；[] = 内置基线
     record:
       emit: true               # 会话结束时发 cot-profile/record 事件
-      file: ''                 # 可选 JSONL 路径，如 ~/.dsh/cot-profile/records.jsonl
+      file: ''                 # 可选 JSONL 路径（~ 开头会自动展开为用户主目录）
 ```
 
 **面板形态：**

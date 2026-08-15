@@ -40,7 +40,7 @@ Configuration lives in the `cot-profile` plugin row (`cordis.patch.yml` of this 
     profiles: []               # custom profile families; [] = built-in baselines
     record:
       emit: true               # emit cot-profile/record at session end
-      file: ''                 # optional JSONL path, e.g. ~/.dsh/cot-profile/records.jsonl
+      file: ''                 # optional JSONL path (leading ~ expands to $HOME)
 ```
 
 **Panel modes:**
