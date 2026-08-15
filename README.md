@@ -105,6 +105,12 @@ This copies the installed `dsh-host-apiproxy` into the web profile and adds `cot
 
 **Privacy boundary (hard requirement):** records contain only aggregates — never raw reasoning text. File recording is off by default and opt-in.
 
+### GUI calibration (semi-automatic)
+
+The settings section (**Settings → 思维链画像 → 数据校准**) scans the configured record file, groups records by (provider, model, preset), aggregates indicator-vector means per group, and offers a one-click **"应用为画像族"** — writing the measured group as a new profile-family into the `profiles` config. Aggregation is automatic; applying is always a human decision, and the built-in baselines are never rewritten automatically.
+
+The scan reads `GET /cot-profile/records` — a route the plugin registers on the web server. It reads **only** the configured `record.file` path and returns aggregates (never raw reasoning text); without a configured file it returns an empty result. If the settings section shows a scan error, confirm the JSONL path is set and a few sessions have ended.
+
 ## Development
 
 ```bash

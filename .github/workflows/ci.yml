@@ -20,8 +20,10 @@ jobs:
         run: |
           node --check lib/analyzer.js
           node --check lib/profiles.js
+          node --check lib/projection.js
+          node --check lib/calibrate.js
           node --check lib/index.js
           node --check lib/client.js
           node --check scripts/patch-apiproxy.mjs
       - name: Run unit tests (zero-dependency)
-        run: node --test test/analyzer.test.js test/projection.test.js
+        run: node --test test/analyzer.test.js test/projection.test.js test/calibrate.test.js
