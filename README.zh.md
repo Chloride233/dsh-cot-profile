@@ -65,6 +65,10 @@ sh scripts/install-patch.sh
 - profile 里执行 `pnpm install` 会移除复制品；之后重新运行本脚本即可。
 - dsh 升级可能改变白名单布局；脚本找不到目标结构时会明确报错，绝不静默失效。
 
+## FAQ
+
+- **本地路径安装加载失败？** `dsh plugin add <本地目录>` 走 pnpm 的 `link:` 协议，link 包的依赖从**它自己所在目录**解析——所以检出目录里需要可解析的 `node_modules`。在检出目录跑 `pnpm install`（或软链到运行中 harness 的 node_modules）即可。用 GitHub 地址安装（`github:...`）没有这个问题——pnpm 从商店原生解析依赖。
+
 ## 事件与数据
 
 | 出口 | 形态 |

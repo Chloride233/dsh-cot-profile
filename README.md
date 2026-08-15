@@ -65,6 +65,10 @@ This copies the installed `dsh-host-apiproxy` into the web profile and adds `cot
 - A `pnpm install` in the profile directory removes the copied package; re-run the script afterwards.
 - A dsh upgrade may change the allowlist layout; the patch script fails loudly (never silently) when it cannot find the block.
 
+## FAQ
+
+- **Local-path install fails to load?** `dsh plugin add <local-dir>` installs via pnpm's `link:` protocol, which resolves the linked package's imports from its own directory — so the checkout needs a resolvable `node_modules`. Run `pnpm install` in the checkout (or symlink it to the running harness's node_modules). Installing from the GitHub URL (`github:...`) does not have this issue — pnpm resolves dependencies from its store natively.
+
 ## Events & data
 
 | Surface | Shape |
