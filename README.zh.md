@@ -34,13 +34,19 @@ dsh plugin --profile web add github:Chloride233/dsh-cot-profile
   config:
     minBlocksForJudgment: 10   # 满 N 块 reasoning 才给判定
     badge: true                # 会话头部徽章
-    panel: true                # 右侧悬浮面板
+    panel: true                # 实时面板
+    panelMode: overlay         # 'overlay'（默认，零风险）| 'track'（实验性右侧轨道栏）
     weights: {}                # 各维度权重；{} = 内置默认
     profiles: []               # 自定义画像族；[] = 内置基线
     record:
       emit: true               # 会话结束时发 cot-profile/record 事件
       file: ''                 # 可选 JSONL 路径，如 ~/.dsh/cot-profile/records.jsonl
 ```
+
+**面板形态：**
+
+- `overlay`（默认）：悬浮面板，钉在会话右侧——官方 additive 槽位，零风险。
+- `track`（**实验性**）：真正的右侧列，通过直接操作 DOM 往 shell 的三栏网格追加轨道（MutationObserver 监听 `grid-template-columns`）。不遮内容、不替换任何官方 UI，但运行在官方槽位系统之外——DSH 升级若改变框架结构可能需要适配此模式。默认关闭。
 
 权重默认（`let me`/`we` 权重最高，对应研究中的分离度）：
 

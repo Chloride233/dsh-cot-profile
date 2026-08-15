@@ -44,7 +44,7 @@ export interface CotProfileView {
   vector: Record<string, number>;
   judgment: CotProfileJudgment;
   /** UI toggles resolved from config (host-side). */
-  ui: { badge: boolean; panel: boolean };
+  ui: { badge: boolean; panel: boolean; panelMode: 'overlay' | 'track' };
   /** Monotonic per-session change counter. */
   revision: number;
 }

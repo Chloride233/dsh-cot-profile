@@ -8,6 +8,7 @@ const DEFAULT_CONFIG = {
   profiles: [],
   badge: true,
   panel: true,
+  panelMode: 'overlay',
 };
 
 function blockStart(turn, step, index) {
@@ -95,6 +96,7 @@ test('renderView normalizes judgment while sampling and judges after minBlocks',
   assert.ok(view.revision >= 2);
   assert.equal(view.ui.badge, true);
   assert.equal(view.ui.panel, true);
+  assert.equal(view.ui.panelMode, 'overlay');
 });
 
 test('full pipeline: minimal-like session is judged minimal-like; standard-like is not', () => {

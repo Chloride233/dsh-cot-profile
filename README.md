@@ -34,13 +34,19 @@ Configuration lives in the `cot-profile` plugin row (`cordis.patch.yml` of this 
   config:
     minBlocksForJudgment: 10   # verdict only after N reasoning blocks
     badge: true                # session-header badge
-    panel: true                # floating right-side panel
+    panel: true                # real-time panel
+    panelMode: overlay         # 'overlay' (default, zero risk) | 'track' (experimental right column)
     weights: {}                # per-dimension weights; {} = built-in defaults
     profiles: []               # custom profile families; [] = built-in baselines
     record:
       emit: true               # emit cot-profile/record at session end
       file: ''                 # optional JSONL path, e.g. ~/.dsh/cot-profile/records.jsonl
 ```
+
+**Panel modes:**
+
+- `overlay` (default): floating panel pinned to the right edge of the conversation — an official additive slot, zero risk.
+- `track` (**experimental**): a real right column appended to the shell's three-column grid via direct DOM manipulation (MutationObserver over `grid-template-columns`). It does not cover content and does not replace any shipped UI, but it operates outside the official slot system — a DSH upgrade that changes the frame structure may require adapting this mode. Off by default.
 
 Weights (defaults, `let me`/`we` dominate per research separation):
 

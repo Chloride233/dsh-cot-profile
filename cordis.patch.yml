@@ -6,6 +6,7 @@
         minBlocksForJudgment: 10
         badge: true
         panel: true
+        panelMode: overlay
         record:
           emit: true
           file: ''
