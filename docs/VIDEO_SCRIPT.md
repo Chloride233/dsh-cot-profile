@@ -58,9 +58,9 @@
 
 **口播**：
 
-> 看一组真实对比。同一个模型，同一个任务，只换装配。minimal 预设下，思维链开口就是「我们」，we 冲到四百六十九——判定：minimal-like。切到 standard 预设的新会话重跑，let me 飙到一千七——画像翻转成 standard-like。模型没变，变的是装配，措辞指纹跟着走。
+> 看一组真实对比。同一个模型，同一个任务，只换装配。minimal 预设下，思维链开口就是「我们」，we 冲到四百一十三，let me 是零——判定：minimal-like，置信度百分之八十五。切到 standard 预设的新会话重跑，let me 直接飙到一千七百五——画像翻转成 standard-like，置信度同样是八十五。模型没变，变的是装配，措辞指纹跟着走。
 
-**数字依据**：本机实测（实验 2 + 校准聚合，见 README「On-machine verification」）：minimal 组 we100≈469、standard 组 letMe100≈1706；n=3 矩阵 minimal→spec、standard→react。录制前各跑一遍确认判定方向稳定。
+**数字依据**：录后实测（records.jsonl，2026-08-16）：minimal 会话 we100=413 / letMe100=0 → minimal-like 0.85；standard 会话 letMe100=1750 / we100=8.3 → standard-like 0.85。与实验 2（we≈469 / letMe≈1706）同方向。
 
 ## ⑤ 安装号召（2:35–3:00）
 
