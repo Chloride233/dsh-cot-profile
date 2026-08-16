@@ -179,3 +179,27 @@ dsh plugin --profile web add github:Chloride233/dsh-cot-profile
 **⑥b 给 yjh051108（dsh-router-standard）：**
 
 > 你好！dsh-cot-profile 的 golden 验证使用了 dsh-router-standard 的探针数据（README 已注明来源与 NOTICE）。如果方便的话，希望两个仓库可以互链——你的数据让我的判定验证有了真实模型依据，感谢！
+
+
+---
+
+## 推广台账（执行记录）
+
+> 更新于 2026-08-16。按计划顺序推进；④⑤ 已确认不采用。
+
+| 渠道 | 链接 | 状态 | 备注 |
+|---|---|---|---|
+| ① 官方插件专区主帖 | https://github.com/deepseek-ai/deepseek-harness/discussions/2284 | ✅ 已发布 | 标题按官方格式，0 评论起步，需守评论区 |
+| ② 生态目录收录 | https://github.com/zoahdev/dsh-ecosystem/issues/1 | ⏳ 待合并 | 等维护者收录进 catalog |
+| ⑥a 方法论来源互链 | https://github.com/xiaobright/modeltest/issues/4 | ⏳ 待回复 | 同意后更新 README Credits |
+| ⑥b golden 数据源互链 | https://github.com/yjh051108/dsh-router-standard/issues/24 | ⏳ 待回复 | 同上 |
+| 附加：能力索引自荐 | https://github.com/deepseek-ai/deepseek-harness/discussions/2282#discussioncomment-18038242 | ✅ 已发 | dsh-capability-index |
+| 附加：社区合集自荐 | https://github.com/deepseek-ai/deepseek-harness/discussions/2260#discussioncomment-18038244 | ✅ 已发 | 社区项目介绍合集 |
+| ③ Linux.do | 待发 | ⏳ 未开始 | 视频发布后发（文案③） |
+| B 站视频 | 待录 | ⏳ 未开始 | 脚本 docs/VIDEO_SCRIPT.md（v0.2） |
+
+### 待办追踪
+- [ ] 守 #2284 评论区，回复安装/校准问题
+- [ ] 盯 3 个 issue 回复；作者同意后更新 README Credits 段并回帖确认
+- [ ] 录 B 站视频（脚本已就绪）→ 发布后发 Linux.do（③）
+- [ ] dsh-ecosystem 收录后，把插件加入其 catalog 格式要求的字段
