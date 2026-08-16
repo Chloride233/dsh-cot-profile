@@ -175,3 +175,35 @@ test('resolveProfiles falls back to built-ins', () => {
   const custom = [{ id: 'x', name: 'X', description: '', vector: { a: 1 } }];
   assert.equal(resolveProfiles(custom), custom);
 });
+
+test('judge treats a runaway let-me count as confident react, not mixed', () => {
+  const profiles = resolveProfiles([]);
+  // ex2r2-A style: 159 let me / 10 blocks, 1 we
+  const v = buildVector({
+    blocks: 10,
+    lengths: Array(10).fill(200),
+    counts: { letMe: 159, we: 1, lets: 0, i: 129 },
+    firstLines: { 'we-need': 0, 'the-user-wants': 0, 'let-me': 5, i: 0, other: 5 },
+    visibleReplies: 0,
+  });
+  const out = judge(v, 10, profiles, DEFAULT_WEIGHTS, 3);
+  assert.equal(out.sufficient, true);
+  assert.equal(out.mixed, false);
+  assert.equal(out.family, 'standard-like');
+  assert.ok(out.confidence >= 0.85);
+});
+
+test('judge treats a runaway we count as confident spec, not mixed', () => {
+  const profiles = resolveProfiles([]);
+  const v = buildVector({
+    blocks: 10,
+    lengths: Array(10).fill(150),
+    counts: { letMe: 0, we: 50, lets: 20, i: 0 },
+    firstLines: { 'we-need': 8, 'the-user-wants': 0, 'let-me': 0, i: 0, other: 2 },
+    visibleReplies: 0,
+  });
+  const out = judge(v, 10, profiles, DEFAULT_WEIGHTS, 3);
+  assert.equal(out.mixed, false);
+  assert.equal(out.family, 'minimal-like');
+  assert.ok(out.confidence >= 0.85);
+});
