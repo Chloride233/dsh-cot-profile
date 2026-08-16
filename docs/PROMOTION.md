@@ -93,7 +93,6 @@
 
 > **标题：`DSH｜dsh-cot-profile｜实时思维链轨迹画像：措辞指纹监控 + GUI 校准基线`**
 
-```markdown
 > **_> 非官方项目，由社区成员独立开发和维护。_**
 
 > **项目地址：** https://github.com/Chloride233/dsh-cot-profile
@@ -125,7 +124,6 @@
 
 ```bash
 dsh plugin --profile web add github:Chloride233/dsh-cot-profile
-```
 
 ## 诚实边界
 
