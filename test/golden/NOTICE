@@ -1,0 +1,19 @@
+# Golden verification data — source notice
+
+`probes.csv` is a distilled snapshot of real DeepSeek V4 Pro / V4 Flash
+single-request probe runs from:
+
+- **Repository:** [yjh051108/dsh-router-standard](https://github.com/yjh051108/dsh-router-standard)
+- **Path:** `probe/results/*.json`
+- **License:** MIT (original data files preserved in that repository)
+
+Each row keeps the ground-truth lexicon classification (`truth`) from the
+source (minimal-like / standard-like / ambiguous) plus the wording metrics
+this plugin consumes (we, letMe, lets, i, chars, firstToken) and the probe
+cell id + model. Reasoning text is not included (aggregates only), consistent
+with the upstream repository's own sanitization policy.
+
+Used by `test/golden-verify.test.js` to verify the plugin's judgment against
+real model behavior. To refresh the snapshot, re-download
+`probe/results/*.json` from the source repository and re-run the distillation
+step (see the test file header for the mapping).

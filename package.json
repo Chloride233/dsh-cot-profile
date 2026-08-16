@@ -40,7 +40,7 @@
     "node": ">=18"
   },
   "scripts": {
-    "test": "node --test test/analyzer.test.js test/projection.test.js test/calibrate.test.js"
+    "test": "node --test test/analyzer.test.js test/projection.test.js test/calibrate.test.js test/golden-verify.test.js"
   },
   "repository": {
     "type": "git",
