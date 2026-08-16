@@ -115,3 +115,17 @@ test('baselineDiff matches the nearest baseline and signs the diff', () => {
 test('baselineDiff handles an empty profile list', () => {
   assert.deepEqual(baselineDiff({ we100: 1 }, []), { profileId: null, distance: null, diffs: {} });
 });
+
+test('baselineDiff applies the strong directional override', () => {
+  const profiles = [
+    { id: 'minimal-like', vector: { we100: 126, letMe100: 0.2, i100: 10, lets100: 60, p50BlockChars: 182, visibleReplies100: 0.5, firstLineWeNeed: 0.6, firstLineUserWants: 0.02, firstLineLetMe: 0.01, firstLineI: 0.02, firstLineOther: 0.35 } },
+    { id: 'standard-like', vector: { we100: 14, letMe100: 208, i100: 195, lets100: 1, p50BlockChars: 494, visibleReplies100: 44, firstLineWeNeed: 0.05, firstLineUserWants: 0.45, firstLineLetMe: 0.3, firstLineI: 0.1, firstLineOther: 0.1 } },
+    { id: 'gray-like', vector: { we100: 7, letMe100: 14, i100: 340, lets100: 0, p50BlockChars: 310, visibleReplies100: 52, firstLineWeNeed: 0.02, firstLineUserWants: 0.05, firstLineLetMe: 0.05, firstLineI: 0.6, firstLineOther: 0.28 } },
+  ];
+  // runaway letMe with high I: nearest raw baseline is gray (high I), but the
+  // strong override must pick the react side.
+  const v = { letMe100: 1706, we100: 16, i100: 1295, lets100: 0, p50BlockChars: 300, visibleReplies100: 20, firstLineWeNeed: 0, firstLineUserWants: 0.1, firstLineLetMe: 0.5, firstLineI: 0.3, firstLineOther: 0.1 };
+  const out = baselineDiff(v, profiles);
+  assert.equal(out.profileId, 'standard-like');
+  assert.ok(out.diffs.letMe100 > 0);
+});
