@@ -19,15 +19,21 @@
 
 ## 逐个怎么用
 
-### ① GitHub Discussions（主入口，先做这个）
+### ① GitHub Discussions 插件专区（主入口，先做这个）
 
-1. 打开 https://github.com/deepseek-ai/deepseek-harness/discussions
-2. 点 **New discussion** → 分类选 **Show and tell**（社区插件自荐通常用这个）
-3. 标题：`dsh-cot-profile: real-time reasoning-trajectory profiling for DSH`
-4. 粘贴文案① → 发布
-5. 发布后**留在评论区回帖**：安装问题、校准问题有人问就答——这是官方仓库的曝光位
+官方已开设插件专区「Show Your Plugins!」（https://github.com/deepseek-ai/deepseek-harness/discussions/categories/show-your-plugins），
+发帖指南在 #2004。**必须按官方格式，否则可能被删：**
 
-规则：这是讨论帖不是 PR（官方 CONTRIBUTING 明确说社区插件放自己仓库，我们已遵守）；别重复发；标题不要带 emoji/营销词。
+1. 标题格式：`DSH｜项目名称｜一句话说明`
+2. 正文用官方模板：非官方声明 → 项目地址 → 介绍 → **截图** → 与 DSH 的集成方式
+3. 一个主题一个项目
+4. 发布前准备 2-3 张截图（面板判定卡、校准页）——模板明确要求截图/GIF/视频，没截图先补
+5. 发布后守评论区回帖
+
+发帖前截图清单：
+- [ ] 面板判定卡（家族名 + 置信度）
+- [ ] 校准页面（分组 + 基线差异/判定分布）
+- [ ] 可选：会话头部徽章
 
 ### ② dsh-ecosystem 收录（让插件进"生态目录"）
 
@@ -83,27 +89,28 @@
 
 ## 文案全文
 
-### 文案① GitHub Discussions 自荐帖（英文 · 润色版）
+### 文案① GitHub Discussions 插件专区帖（按官方模板 · 中文）
 
-> **dsh-cot-profile: real-time reasoning-trajectory profiling for DSH**
+> **标题：DSH｜dsh-cot-profile｜实时思维链轨迹画像：措辞指纹监控 + GUI 校准基线**
 >
-> **TL;DR** — a DSH plugin that watches the reasoning stream as it happens and classifies the session's trajectory family from wording fingerprints (`let me` / `we` / `let's` / `I`, first-line patterns, block-length median, interim replies). Judgment is a weighted-distance match against built-in baselines, with confidence.
+> **_> 非官方项目，由社区成员独立开发和维护。
 >
-> **Why** — model research (xiaobright/modeltest) shows that reasoning wording separates trajectory families sharply: anchored/minimal runs are we/let's-heavy with `let me` ≈ 0, standard-like runs flip that. That separation is a live, observable signal — so I built a live instrument around it.
+> 项目地址：
+> https://github.com/Chloride233/dsh-cot-profile
 >
-> **What it does**
-> - Live session-header badge + verdict-first panel, driven by the session-projection push stream (no polling, resume-safe)
-> - Raw indicators always shown alongside the verdict — evidence over judgment
-> - Per-turn record mode — aggregates only, never raw reasoning text
-> - GUI calibration: scan records → group by provider/model/preset → baseline diff & judgment distribution → one-click apply as your own baseline
+> 项目介绍：
+> dsh-cot-profile 是 DeepSeek Harness 的实时思维链轨迹画像插件。它监听会话的 reasoning 流，统计措辞指纹（let me / we / let's / I、首行模式、块长、阶段回复），用加权距离匹配内置基线，实时判定当前会话的画像族（minimal-like / standard-like / gray-like）并给出置信度。面板由会话投影推送驱动（无轮询、resume 安全）。支持按回合自动记录聚合数据（只存统计不存原文），设置页扫描记录文件后可一键校准成自己的判定基线（含与当前基线的差异、判定分布）。
 >
-> **Honest boundary** — wording fingerprints describe the *(model × assembly)* combination, not model identity (the research's own Flash counterexample: same wording pattern, different model). The tool gives evidence; conclusions are yours.
+> 与 DSH 的集成方式：
+> - Host 端注册 cot-profile 会话投影，Client 端通过 useProjection 实时读取（官方 session-projection 机制）
+> - 面板/徽章挂载在官方 additive 槽位（conversation.session.header.utilities、conversation.input.overlay）
+> - 记录与校准走 webServer 路由 + settings 命名空间
+> - 安装：dsh plugin --profile web add github:Chloride233/dsh-cot-profile
 >
-> **Engineering** — pure analyzer/projection modules, 40 zero-dependency unit tests, bilingual README, MIT.
+> 截图：
+> [插入：面板判定卡截图 / 校准页面截图]
 >
-> Install: `dsh plugin --profile web add github:Chloride233/dsh-cot-profile`
->
-> Open to feedback on the judgment design and the calibration workflow. (Posted as a discussion per CONTRIBUTING — community plugins live in their own repos.)
+> 诚实边界：措辞指纹描述的是 (模型 × 配置) 的行为画像，不是模型身份（研究中的 Flash 反例）；工具提供证据，结论由使用者判断。方法论源自 xiaobright/modeltest 的轨迹分析，golden 验证基于 yjh051108/dsh-router-standard 的探针数据。MIT 开源，40 个零依赖单测。_**
 
 ### 文案② dsh-ecosystem 收录请求（英文 issue）
 
