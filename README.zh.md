@@ -21,6 +21,12 @@
 - **记录模式**：每个 turn 结束落一条累计 JSON 快照（事件和/或 JSONL；DSH 会话极少销毁，所以快照在每次 turn/end 落盘）——用真实数据校准基线的测量仪器。
 - **隐私**：只有聚合数据离开 host 计算；原始思维链文本从不记录、从不传输。
 
+## 截图
+
+| 实时判定面板 | 校准页面（基线差异 / 判定分布） |
+|---|---|
+| ![实时面板](docs/screenshots/panel-verdict.png) | ![校准页面](docs/screenshots/calibration.png) |
+
 ## 安装
 
 ```bash

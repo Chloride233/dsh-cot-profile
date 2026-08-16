@@ -21,6 +21,12 @@ This plugin tells you **which trajectory side the current session behaves like**
 - **Record mode**: per-turn cumulative JSON records (event and/or JSONL; sessions rarely dispose, so snapshots land at every turn/end) — the measurement instrument that calibrates the baselines with real data.
 - **Privacy**: only aggregates ever leave the host computation; raw reasoning text is never recorded or transmitted.
 
+## Screenshots
+
+| Live verdict panel | Calibration (baseline diff / judgment distribution) |
+|---|---|
+| ![Live panel](docs/screenshots/panel-verdict.png) | ![Calibration](docs/screenshots/calibration.png) |
+
 ## Install
 
 ```bash

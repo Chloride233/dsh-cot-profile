@@ -108,7 +108,9 @@
 > - 安装：dsh plugin --profile web add github:Chloride233/dsh-cot-profile
 >
 > 截图：
-> [插入：面板判定卡截图 / 校准页面截图]
+> - 实时判定面板：docs/screenshots/panel-verdict.png
+> - 校准页面：docs/screenshots/calibration.png
+> （发帖时上传这两张图）
 >
 > 诚实边界：措辞指纹描述的是 (模型 × 配置) 的行为画像，不是模型身份（研究中的 Flash 反例）；工具提供证据，结论由使用者判断。方法论源自 xiaobright/modeltest 的轨迹分析，golden 验证基于 yjh051108/dsh-router-standard 的探针数据。MIT 开源，40 个零依赖单测。_**
 
