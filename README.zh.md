@@ -23,9 +23,9 @@
 
 ## 截图
 
-| 实时判定面板 | 校准页面（基线差异 / 判定分布） |
+| 实时判定面板（两种画像） |
 |---|---|
-| ![实时面板](docs/screenshots/panel-verdict.png) | ![校准页面](docs/screenshots/calibration.png) |
+| ![判定面板](docs/screenshots/panel-verdict.png) | ![判定面板 2](docs/screenshots/calibration.png) |
 
 ## 安装
 
