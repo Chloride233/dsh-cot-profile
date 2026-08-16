@@ -153,6 +153,21 @@ The golden data validates the judgment against someone else's probes; for **your
    ```
    The script replays each log through the plugin's fold, reports the verdict per session, and fails on direction errors (a spec-expect session judged react-side, or vice versa). A transition-band verdict under a spec/react expectation is *conservative* (data-insufficient), not an error — consistent with the golden criteria.
 
+### On-machine verification results (this project's own probes)
+
+Controlled probes were run on this machine (DeepSeek V4 Pro, identical task and workspace, only the assembly varied) — see `docs/experiments/`:
+
+| assembly | n | verdicts | reading |
+|---|---|---|---|
+| standard | 3 | react, react, mixed(3-blocks) | **react side** (let me / I voice) |
+| minimal | 3 | spec, spec, mixed(genuine we+letMe) | **spec side** (we / let's voice) |
+
+- The assembly → trajectory-side mapping reproduces on this machine, consistent with router-standard / modeltest.
+- The probes surfaced and fixed a real judgment flaw: a tool-heavy session with a runaway `let me` count (letMe100 ≈ 1700) was mislabelled "uncertain" because the soft-distance saturates when the observation is far above every baseline. The **strong-signal override** now judges such trajectories confidently (≥85%).
+- Record-mode calibration on this machine showed measured intensities well above the built-in estimates (minimal we100 ≈ 469 vs baseline 126; standard letMe100 ≈ 1706 vs 208) — the estimates are from other environments/tasks, so apply measured baselines with that context in mind.
+
+Methodological note: a session's actual assembly must be read from the `agent-preset/selected` event plus the tool-call surface (session-header `agentPreset` is just a creation-time default and is unreliable).
+
 ## Upstream wishlist
 
 Both are temporary gaps in DeepSeek Harness 0.1.0-rc.6 this plugin works around:

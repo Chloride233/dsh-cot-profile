@@ -153,6 +153,24 @@ npm test          # node --test test/*.test.js（零依赖）
    ```
    脚本把每个日志回放进插件的 fold，逐会话报告判定；遇到方向错误（spec 预期被判成 react 侧，或反之）即失败。spec/react 预期下出现过渡带判定属"保守"（数据不足），不算错误——与金标准判据一致。
 
+### 本机实测验证结果（本项目自己的探针）
+
+本机受控探针（DeepSeek V4 Pro，同一任务同一工作区，仅装配不同）——见 `docs/experiments/`：
+
+| 装配 | n | 判定 | 归纳 |
+|---|---|---|---|
+| standard | 3 | react、react、mixed(3块不足) | **react 侧**（let me / I 口吻）|
+| minimal | 3 | spec、spec、mixed(真实 we+letMe 混合) | **spec 侧**（we / let's 口吻）|
+
+- "装配 → 轨迹侧"的映射在本机复现，与 router-standard / modeltest 一致。
+- 探针暴露并修复了一个真实判定缺陷：工具密集会话的 `let me` 爆表（letMe100 ≈ 1700）
+  因软距离饱和被误判为"不确定"——**strong-signal 覆盖**现以高置信（≥85%）判定此类轨迹。
+- 本机记录校准显示实测强度远超内置估算（minimal we100 ≈ 469 vs 基线 126；standard
+  letMe100 ≈ 1706 vs 208）——内置估算是他人环境/任务手算，应用实测基线时需注意这一背景。
+
+方法学备注：会话的实际装配应读取 `agent-preset/selected` 事件 + 工具调用集（会话头部的
+`agentPreset` 只是创建时默认值，不可靠）。
+
 ## Upstream wishlist
 
 以下均为 DeepSeek Harness 0.1.0-rc.6 的临时缺口，本插件暂以变通方式绕过：
