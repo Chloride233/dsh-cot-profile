@@ -52,7 +52,7 @@ export interface CotProfileView {
   vector: Record<string, number>;
   judgment: CotProfileJudgment;
   /** UI toggles resolved from config (host-side). */
-  ui: { badge: boolean; panel: boolean; panelMode: 'overlay' | 'track' };
+  ui: { badge: boolean; panel: boolean; panelMode: 'overlay' | 'track'; profilesCount: number };
   /** Monotonic per-session change counter. */
   revision: number;
 }
