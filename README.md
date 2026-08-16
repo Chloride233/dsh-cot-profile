@@ -142,6 +142,24 @@ Both are temporary gaps in DeepSeek Harness 0.1.0-rc.6 this plugin works around:
 1. **Plugin-declared settings exposure** — move the settings namespace allowlist from `dsh-host-apiproxy` into `settings.register()` so plugins can expose their own configuration without patching a bundle.
 2. **Additive right-column slot** — a `conversation.details.panel`-style list seat so a floating panel can become a native right column.
 
+## Credits
+
+This project stands on community work. Acknowledgements by contribution type:
+
+**Methodology & data**
+
+- [`xiaobright/modeltest`](https://github.com/xiaobright/modeltest) — the trajectory indicator baselines and evaluation data (V4.1b, frozen) behind the built-in profiles.
+- [`xiaobright/dsh-anchored-standard`](https://github.com/xiaobright/dsh-anchored-standard) — the anchoring mechanism that motivated this plugin's original requirement.
+- [`yjh051108/dsh-router-standard`](https://github.com/yjh051108/dsh-router-standard) — the three-band / fault-line framing adopted for profile semantics, and the golden verification data (119 real probe runs, see `test/golden/NOTICE`).
+
+**Design reference**
+
+- [`zhu1090093659/dsh-web-ui`](https://github.com/zhu1090093659/dsh-web-ui) — the layout-track idea behind the experimental `track` panel mode (re-implemented from measured behavior, not copied code).
+
+**Ecosystem**
+
+- [`yjh051108/dsh-routing-suite`](https://github.com/yjh051108/dsh-routing-suite) — the injector + routing preset suite this project's direction intersects with.
+
 ## License
 
-MIT. See [LICENSE](./LICENSE). Built on the trajectory methodology of [`xiaobright/dsh-anchored-standard`](https://github.com/xiaobright/dsh-anchored-standard) and [`xiaobright/modeltest`](https://github.com/xiaobright/modeltest) (MIT, aggregates only).
+MIT. See [LICENSE](./LICENSE).

@@ -142,6 +142,24 @@ npm test          # node --test test/*.test.js（零依赖）
 1. **插件自声明 settings 暴露** —— 把命名空间白名单从 `dsh-host-apiproxy` 挪进 `settings.register()`，让插件免补丁暴露自己的配置。
 2. **右侧列的可加槽位** —— 提供 `conversation.details.panel` 这类列表席位，让悬浮面板升级为原生右侧列。
 
+## 致谢
+
+本项目站在社区成果之上，按贡献类型鸣谢：
+
+**方法论与数据**
+
+- [`xiaobright/modeltest`](https://github.com/xiaobright/modeltest) — 内置画像族的轨迹指标基线与评测数据（V4.1b，frozen）。
+- [`xiaobright/dsh-anchored-standard`](https://github.com/xiaobright/dsh-anchored-standard) — 锚定机制，本插件最初需求的来源。
+- [`yjh051108/dsh-router-standard`](https://github.com/yjh051108/dsh-router-standard) — 画像族语义采用的三带/断层框架；金标准验证数据（119 个真实探针 run，见 `test/golden/NOTICE`）。
+
+**设计参考**
+
+- [`zhu1090093659/dsh-web-ui`](https://github.com/zhu1090093659/dsh-web-ui) — 实验性 `track` 面板模式的布局轨道思路（基于实测行为重新实现，非复制代码）。
+
+**生态**
+
+- [`yjh051108/dsh-routing-suite`](https://github.com/yjh051108/dsh-routing-suite) — 注入器 + 路由预设套装，与本项目方向交汇。
+
 ## License
 
-MIT，见 [LICENSE](./LICENSE)。轨迹方法论源自 [`xiaobright/dsh-anchored-standard`](https://github.com/xiaobright/dsh-anchored-standard) 与 [`xiaobright/modeltest`](https://github.com/xiaobright/modeltest)（MIT，仅使用公开聚合数据）。
+MIT，见 [LICENSE](./LICENSE)。
