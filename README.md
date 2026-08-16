@@ -28,6 +28,7 @@ This plugin tells you **which trajectory side the current session behaves like**
 | ![minimal-like verdict](docs/screenshots/panel-verdict.png) | ![standard-like verdict](docs/screenshots/panel-standard.png) |
 
 | GUI calibration (scan → groups → one-click baseline) |
+|---|
 | ![GUI calibration](docs/screenshots/calibration.png) |
 
 ## Install

@@ -107,6 +107,7 @@
 | ![minimal-like](https://github.com/Chloride233/dsh-cot-profile/raw/main/docs/screenshots/panel-verdict.png) | ![standard-like](https://github.com/Chloride233/dsh-cot-profile/raw/main/docs/screenshots/panel-standard.png) |
 
 | GUI 校准（扫描 → 分组 → 一键应用基线） |
+|---|
 | ![GUI 校准](https://github.com/Chloride233/dsh-cot-profile/raw/main/docs/screenshots/calibration.png) |
 
 ## 功能

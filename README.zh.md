@@ -28,6 +28,7 @@
 | ![minimal-like 判定](docs/screenshots/panel-verdict.png) | ![standard-like 判定](docs/screenshots/panel-standard.png) |
 
 | GUI 校准（扫描 → 分组 → 一键应用基线） |
+|---|
 | ![GUI 校准](docs/screenshots/calibration.png) |
 
 ## 安装
