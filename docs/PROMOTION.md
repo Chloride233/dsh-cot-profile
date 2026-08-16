@@ -106,6 +106,9 @@
 |---|---|
 | ![minimal-like](https://github.com/Chloride233/dsh-cot-profile/raw/main/docs/screenshots/panel-verdict.png) | ![standard-like](https://github.com/Chloride233/dsh-cot-profile/raw/main/docs/screenshots/panel-standard.png) |
 
+| GUI 校准（扫描 → 分组 → 一键应用基线） |
+| ![GUI 校准](https://github.com/Chloride233/dsh-cot-profile/raw/main/docs/screenshots/calibration.png) |
+
 ## 功能
 
 - **实时面板**：会话投影推送驱动（无轮询、resume 安全），判定卡为核心，原始指标与判定并列展示
