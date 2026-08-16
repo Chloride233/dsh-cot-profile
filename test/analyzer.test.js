@@ -105,7 +105,42 @@ test('judge picks minimal-like for a we-heavy, let-me-free vector', () => {
   const out = judge(v, 40, profiles, DEFAULT_WEIGHTS, 10);
   assert.equal(out.sufficient, true);
   assert.equal(out.family, 'minimal-like');
-  assert.ok(out.confidence > 0.5);
+  assert.equal(out.mixed, false);
+  assert.ok(out.confidence > 0.6);
+});
+
+test('judge flags the transition band when both we and let me are elevated', () => {
+  const profiles = resolveProfiles([]);
+  const v = buildVector({
+    blocks: 40,
+    lengths: Array(40).fill(300),
+    counts: { letMe: 40, we: 40, lets: 8, i: 40 },
+    firstLines: { 'we-need': 10, 'the-user-wants': 10, 'let-me': 10, i: 5, other: 5 },
+    visibleReplies: 8,
+  });
+  const out = judge(v, 40, profiles, DEFAULT_WEIGHTS, 10);
+  assert.equal(out.sufficient, true);
+  assert.equal(out.mixed, true);
+  assert.equal(out.mixedReason, 'dual-indicator');
+  assert.equal(out.family, '');
+});
+
+test('judge flags the transition band on low confidence', () => {
+  const profiles = resolveProfiles([]);
+  // Neutral vector below both dual-indicator bars but equidistant from every
+  // baseline → low confidence (not the dual-indicator case).
+  const v = buildVector({
+    blocks: 40,
+    lengths: Array(40).fill(350),
+    counts: { letMe: 4, we: 8, lets: 4, i: 20 },
+    firstLines: { 'we-need': 8, 'the-user-wants': 8, 'let-me': 8, i: 8, other: 8 },
+    visibleReplies: 12,
+  });
+  const out = judge(v, 40, profiles, DEFAULT_WEIGHTS, 10);
+  assert.equal(out.sufficient, true);
+  assert.equal(out.mixed, true);
+  assert.equal(out.mixedReason, 'low-confidence');
+  assert.equal(out.family, '');
 });
 
 test('judge picks standard-like for a let-me-heavy vector', () => {
@@ -120,7 +155,8 @@ test('judge picks standard-like for a let-me-heavy vector', () => {
   const out = judge(v, 40, profiles, DEFAULT_WEIGHTS, 10);
   assert.equal(out.sufficient, true);
   assert.equal(out.family, 'standard-like');
-  assert.ok(out.confidence > 0.5);
+  assert.equal(out.mixed, false);
+  assert.ok(out.confidence > 0.6);
 });
 
 test('built-in profiles all carry the full dimension set', () => {

@@ -6,13 +6,15 @@
 
 措辞指纹描述的是 **(模型 × 装配)** 组合——system prompt、工具 schema、reasoning effort——**不是模型身份**。来源研究（[`xiaobright/modeltest`](https://github.com/xiaobright/modeltest)）证明：接口变化时，不同模型会呈现完全相同的措辞模式（V4 Flash 反例：minimal 装配下与 Pro 同样 `we` 高、`let me` 为零，但能力不同档）。
 
-因此本插件回答的是**"当前会话的行为像哪个轨迹画像族"**（minimal-like / standard-like / gray-like），并把原始指标并列展示，结论由你自己下。**不做"这就是某模型"的断言**。
+[`yjh051108/dsh-router-standard`](https://github.com/yjh051108/dsh-router-standard) 把同一套词法映射到一条**断层线**：沿 persona 轴，V4 Pro 行为坍缩为三段带——**spec**（集体 `We`，let me ≈ 0）、**过渡带**（`mixed`：`We`/`The`/`Let` 混合、不稳定）、**react**（第一人称 `The`/`Let`，we ≈ 0）。两侧没有普遍"更强"（维护任务偏好 spec 侧、greenfield 构建偏好 react 侧）；作者勘误明确反对把措辞读成模型身份或能力证据。
+
+因此本插件回答的是**"当前会话的轨迹落在断层的哪一侧"**（spec 侧 / react 侧 / 灰测侧），把**过渡带显式标记为"不确定"**而不是硬套标签，并把原始指标并列展示，结论由你自己下。**不做"这就是某模型"的断言**。
 
 ## 功能
 
 - **实时 UI**：会话头部徽章 + 可折叠悬浮面板，由会话投影推送帧驱动——无轮询、无自定义 RPC。
 - **指标**：`let me` / `we` / `let's` / `I` 计数、首行模式（`We need…` / `The user wants…` / `Let me…` / `I…`）、块长中位数、阶段性可见回复数。
-- **判定**：加权距离匹配内置基线画像 + 置信度；满 N 块（默认 10，可配置）才下结论。
+- **判定**：加权距离匹配内置基线画像 + 置信度；满 N 块（默认 10，可配置）才下结论。无法可靠归类的轨迹——低置信、或 `we` 与 `let me` 同时偏高（router-standard 的**过渡带**）——显示为"过渡带 / 不确定"，不硬套可能错误的标签。
 - **可扩展**：画像族与各维度权重均可编辑（Web 设置页或 cordis 配置）。
 - **记录模式**：会话结束时落一条聚合 JSON 记录（事件和/或 JSONL）——用真实数据校准基线的测量仪器。
 - **隐私**：只有聚合数据离开 host 计算；原始思维链文本从不记录、从不传输。
@@ -99,7 +101,8 @@ sh scripts/install-patch.sh
                   "p50BlockChars": 111, "visibleReplies": 1,
                   "firstLines": { "we-need": 120, "other": 73 } },
   "vector": { /* 归一化指标向量 */ },
-  "judgment": { "family": "minimal-like", "confidence": 0.87, "distances": {} }
+  "judgment": { "family": "minimal-like", "confidence": 0.87, "distances": {},
+                "mixed": false, "mixedReason": "" }
 }
 ```
 

@@ -121,11 +121,11 @@ test('full pipeline: minimal-like session is judged minimal-like; standard-like 
 
   let standard = initState();
   const standardTexts = [
-    'The user wants the build green quickly. Let me check the failing tests first. I think there is a timeout issue in the harness.',
-    'Let me look at the stack trace. The user wants a minimal repro. I will isolate the module that flakes.',
-    'Let me try running the tests again. I believe the ordering matters here. The user wants a fast fix.',
-    'The user wants a clean patch. Let me inspect the diff carefully. I am going to adjust the sleep interval.',
-    'Let me verify the behavior locally. I will write a small script to reproduce. The user wants the CI green.',
+    'The user wants the build green quickly. Let me check the failing tests first. I think there is a timeout issue in the harness module that we ship.',
+    'Let me look at the stack trace and the last test output. The user wants a minimal repro. I will isolate the module that flakes and rerun it.',
+    'Let me try running the tests again with more logging. I believe the ordering matters here. The user wants a fast fix for the CI pipeline.',
+    'The user wants a clean patch. Let me inspect the diff carefully. I am going to adjust the sleep interval and verify the timing.',
+    'Let me verify the behavior locally first. I will write a small script to reproduce the failure. The user wants the CI green by noon.',
   ];
   standardTexts.forEach((text, i) => {
     standard = foldEvent(standard, blockStart(1, 0, i));

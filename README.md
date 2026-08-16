@@ -6,13 +6,15 @@ Real-time chain-of-thought trajectory profiling for [DeepSeek Harness](https://g
 
 Wording fingerprints describe the **(model × assembly) combination** — system prompt, tool schema, reasoning effort — **not model identity**. The underlying research ([`xiaobright/modeltest`](https://github.com/xiaobright/modeltest)) shows the same wording pattern across different models when the interface changes (the V4 Flash counterexample: identical `we`-heavy, `let me`-free reasoning under the minimal assembly, at a different ability level).
 
-This plugin tells you **which trajectory family the current session behaves like** (minimal-like / standard-like / gray-like) and shows you the raw indicators side by side, so you draw your own conclusions. It does not assert "this is model X".
+[`yjh051108/dsh-router-standard`](https://github.com/yjh051108/dsh-router-standard) maps the same lexicon onto a **fault line**: along the persona axis, V4 Pro behavior collapses into three bands — **spec** (collective `We`, let me ≈ 0), a **transition band** (`mixed`: `We`/`The`/`Let` mixing, unstable), and **react** (first-person `The`/`Let`, we ≈ 0). Neither side is universally "stronger" (maintenance tasks favor the spec side; greenfield builds favor the react side). The author's own correction note rejects any reading of the wording as model identity or capability proof.
+
+This plugin tells you **which trajectory side the current session behaves like** (spec-like / react-like / gray-like), flags the **transition band explicitly as "不确定"** instead of forcing a label, and shows you the raw indicators side by side, so you draw your own conclusions. It does not assert "this is model X".
 
 ## Features
 
 - **Live UI**: session-header badge + collapsible floating panel, updated by session-projection push frames — no polling, no custom RPC.
 - **Indicators**: `let me` / `we` / `let's` / `I` counts, first-line patterns (`We need…` / `The user wants…` / `Let me…` / `I…`), block-length median, interim visible replies.
-- **Judgment**: weighted-distance match against built-in profile baselines with confidence; verdicts only after N blocks (default 10, configurable).
+- **Judgment**: weighted-distance match against built-in profile baselines with confidence; verdicts only after N blocks (default 10, configurable). Trajectories that cannot be reliably assigned — low confidence, or both `we` and `let me` elevated (the router-standard **transition band**) — are reported as "过渡带 / 不确定" instead of a possibly-wrong hard label.
 - **Extensible**: user-editable profile families and per-dimension weights (Web settings or cordis config).
 - **Record mode**: one aggregate JSON record per session at session end (event and/or JSONL) — the measurement instrument that calibrates the baselines with real data.
 - **Privacy**: only aggregates ever leave the host computation; raw reasoning text is never recorded or transmitted.
@@ -99,7 +101,8 @@ This copies the installed `dsh-host-apiproxy` into the web profile and adds `cot
                   "p50BlockChars": 111, "visibleReplies": 1,
                   "firstLines": { "we-need": 120, "other": 73 } },
   "vector": { /* normalized indicator vector */ },
-  "judgment": { "family": "minimal-like", "confidence": 0.87, "distances": {} }
+  "judgment": { "family": "minimal-like", "confidence": 0.87, "distances": {},
+                "mixed": false, "mixedReason": "" }
 }
 ```
 

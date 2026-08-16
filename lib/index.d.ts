@@ -21,12 +21,20 @@ export interface CotProfileFirstLines {
 export interface CotProfileJudgment {
   /** False while blocks < minBlocks ("sampling"). */
   sufficient: boolean;
-  /** Closest profile family id ('' while sampling). */
+  /** Closest profile family id ('' while sampling or in the transition band). */
   family: string;
   /** 1 − d₁/(d₁+d₂); 0 while sampling. */
   confidence: number;
   /** Weighted distance per family. */
   distances: Record<string, number>;
+  /**
+   * Transition band (router-standard "mixed"): the trajectory cannot be
+   * reliably assigned — low confidence or We/The/Let mixing. Do not trust
+   * `family` when this is true.
+   */
+  mixed: boolean;
+  /** 'low-confidence' | 'dual-indicator' | '' — why `mixed` is true. */
+  mixedReason: string;
 }
 
 /** Live projection payload for the `cot-profile` key (wire JSON). */
