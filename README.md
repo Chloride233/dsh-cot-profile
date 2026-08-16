@@ -1,5 +1,7 @@
 # dsh-cot-profile
 
+[中文](./README.zh.md) · [English](./README.md)
+
 Real-time chain-of-thought trajectory profiling for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness): watch the reasoning stream as it happens, tally signature wording indicators (`let me` / `we` / `let's` / `I`), classify the current session's trajectory family against built-in baselines, and optionally record per-session measurement aggregates.
 
 ## Read this first: honest framing

@@ -1,5 +1,7 @@
 # dsh-cot-profile
 
+[中文](./README.zh.md) · [English](./README.md)
+
 面向 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 的实时思维链轨迹画像插件：边流式边统计 reasoning 里的签名措辞指标（`let me` / `we` / `let's` / `I`），对照内置基线判断当前会话的轨迹画像族，并可选的按会话记录测量聚合数据。
 
 ## 先读：关于"推断模型"的诚实边界
