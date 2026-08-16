@@ -89,30 +89,49 @@
 
 ## 文案全文
 
-### 文案① GitHub Discussions 插件专区帖（按官方模板 · 中文）
+### 文案① GitHub Discussions 插件专区帖（按官方模板 · 排版优化版）
 
-> **标题：DSH｜dsh-cot-profile｜实时思维链轨迹画像：措辞指纹监控 + GUI 校准基线**
->
-> **_> 非官方项目，由社区成员独立开发和维护。
->
-> 项目地址：
-> https://github.com/Chloride233/dsh-cot-profile
->
-> 项目介绍：
-> dsh-cot-profile 是 DeepSeek Harness 的实时思维链轨迹画像插件。它监听会话的 reasoning 流，统计措辞指纹（let me / we / let's / I、首行模式、块长、阶段回复），用加权距离匹配内置基线，实时判定当前会话的画像族（minimal-like / standard-like / gray-like）并给出置信度。面板由会话投影推送驱动（无轮询、resume 安全）。支持按回合自动记录聚合数据（只存统计不存原文），设置页扫描记录文件后可一键校准成自己的判定基线（含与当前基线的差异、判定分布）。
->
-> 与 DSH 的集成方式：
-> - Host 端注册 cot-profile 会话投影，Client 端通过 useProjection 实时读取（官方 session-projection 机制）
-> - 面板/徽章挂载在官方 additive 槽位（conversation.session.header.utilities、conversation.input.overlay）
-> - 记录与校准走 webServer 路由 + settings 命名空间
-> - 安装：dsh plugin --profile web add github:Chloride233/dsh-cot-profile
->
-> 截图：
-> - 实时判定面板：docs/screenshots/panel-verdict.png
-> - 校准页面：docs/screenshots/calibration.png
-> （发帖时上传这两张图）
->
-> 诚实边界：措辞指纹描述的是 (模型 × 配置) 的行为画像，不是模型身份（研究中的 Flash 反例）；工具提供证据，结论由使用者判断。方法论源自 xiaobright/modeltest 的轨迹分析，golden 验证基于 yjh051108/dsh-router-standard 的探针数据。MIT 开源，40 个零依赖单测。_**
+> **标题：`DSH｜dsh-cot-profile｜实时思维链轨迹画像：措辞指纹监控 + GUI 校准基线`**
+
+```markdown
+> **_> 非官方项目，由社区成员独立开发和维护。_**
+
+> **项目地址：** https://github.com/Chloride233/dsh-cot-profile
+
+---
+
+**dsh-cot-profile** 是 DeepSeek Harness 的实时思维链轨迹画像插件：监听会话 reasoning 流，统计措辞指纹（`let me` / `we` / `let's` / `I`、首行模式、块长、阶段回复），用加权距离匹配内置基线，实时判定当前会话的画像族（minimal-like / standard-like / gray-like）并给出置信度。
+
+| 实时判定面板 | 校准页面 |
+|---|---|
+| ![面板](https://github.com/Chloride233/dsh-cot-profile/raw/main/docs/screenshots/panel-verdict.png) | ![校准](https://github.com/Chloride233/dsh-cot-profile/raw/main/docs/screenshots/calibration.png) |
+
+## 功能
+
+- **实时面板**：会话投影推送驱动（无轮询、resume 安全），判定卡为核心，原始指标与判定并列展示
+- **记录模式**：按回合自动落聚合记录——只存统计，绝不落原文
+- **GUI 校准**：设置页扫描记录文件 → 按模型/预设分组 → 基线差异与判定分布 → 一键应用为自己的基线
+
+## 与 DSH 的集成方式
+
+- Host 注册 `cot-profile` 会话投影，Client 通过 `useProjection` 实时读取（官方 session-projection 机制）
+- 面板/徽章挂载在官方 additive 槽位（`conversation.session.header.utilities` / `conversation.input.overlay`）
+- 记录与校准走 webServer 路由 + settings 命名空间
+
+## 安装
+
+```bash
+dsh plugin --profile web add github:Chloride233/dsh-cot-profile
+```
+
+## 诚实边界
+
+措辞指纹描述的是 **(模型 × 配置)** 的行为画像，不是模型身份（研究中的 Flash 反例：同样措辞可能出现在不同模型上）。工具提供证据，结论由使用者判断。
+
+方法论源自 [xiaobright/modeltest](https://github.com/xiaobright/modeltest) 的轨迹分析研究；golden 验证基于 [yjh051108/dsh-router-standard](https://github.com/yjh051108/dsh-router-standard) 的探针数据。MIT 开源 · 40 个零依赖单测 · 双语 README。
+```
+
+**排版要点**：非官方声明保留在顶部引用块；截图用 `raw` 链接直接嵌进表格（GitHub Discussion 会渲染图片）；功能/集成用分节标题；安装命令用代码块；结尾带来源链接。发帖时把正文复制进输入框即可，标题另外填。
 
 ### 文案② dsh-ecosystem 收录请求（英文 issue）
 
