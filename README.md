@@ -23,9 +23,12 @@ This plugin tells you **which trajectory side the current session behaves like**
 
 ## Screenshots
 
-| Live verdict panel | Calibration (baseline diff / judgment distribution) |
+| minimal-like verdict | standard-like verdict |
 |---|---|
-| ![Live panel](docs/screenshots/panel-verdict.png) | ![Calibration](docs/screenshots/calibration.png) |
+| ![minimal-like verdict](docs/screenshots/panel-verdict.png) | ![standard-like verdict](docs/screenshots/panel-standard.png) |
+
+| GUI calibration (scan → groups → one-click baseline) |
+| ![GUI calibration](docs/screenshots/calibration.png) |
 
 ## Install
 
