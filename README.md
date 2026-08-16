@@ -18,7 +18,7 @@ This plugin tells you **which trajectory side the current session behaves like**
 - **Indicators**: `let me` / `we` / `let's` / `I` counts, first-line patterns (`We need…` / `The user wants…` / `Let me…` / `I…`), block-length median, interim visible replies.
 - **Judgment**: weighted-distance match against built-in profile baselines with confidence; verdicts only after N blocks (default 10, configurable). Trajectories that cannot be reliably assigned — low confidence, or both `we` and `let me` elevated (the router-standard **transition band**) — are reported as "过渡带 / 不确定" instead of a possibly-wrong hard label.
 - **Extensible**: user-editable profile families and per-dimension weights (Web settings or cordis config).
-- **Record mode**: one aggregate JSON record per session at session end (event and/or JSONL) — the measurement instrument that calibrates the baselines with real data.
+- **Record mode**: per-turn cumulative JSON records (event and/or JSONL; sessions rarely dispose, so snapshots land at every turn/end) — the measurement instrument that calibrates the baselines with real data.
 - **Privacy**: only aggregates ever leave the host computation; raw reasoning text is never recorded or transmitted.
 
 ## Install
@@ -43,7 +43,7 @@ Configuration lives in the `cot-profile` plugin row (`cordis.patch.yml` of this 
     weights: {}                # per-dimension weights; {} = built-in defaults
     profiles: []               # custom profile families; [] = built-in baselines
     record:
-      emit: true               # emit cot-profile/record at session end
+      emit: true               # emit cot-profile/record per turn (and at session end)
       file: ''                 # optional JSONL path (leading ~ expands to $HOME)
 ```
 
@@ -85,7 +85,7 @@ This copies the installed `dsh-host-apiproxy` into the web profile and adds `cot
 | --- | --- |
 | Projection key | `cot-profile` — read it in any session-scoped slot via `useProjection('cot-profile')` (typed as `CotProfileView` in `lib/index.d.ts`) |
 | `cot-profile/update` | `{ sessionId, blocks, counts, firstLines, p50BlockChars, visibleReplies, vector, judgment, ui, revision, seq }` (throttled 500ms) |
-| `cot-profile/record` | one aggregate record at session end (only when the session had ≥1 reasoning block) |
+| `cot-profile/record` | one cumulative snapshot per turn/end, plus a final record at session end (only when the session had ≥1 reasoning block) |
 
 ### Record schema (v1)
 
@@ -99,6 +99,8 @@ This copies the installed `dsh-host-apiproxy` into the web profile and adds `cot
   "provider": "deepseek",               // when known (agent/request capture)
   "model": "deepseek-v4-pro",           // when known
   "reasoningBlocks": 193,
+  "turn": 4,                          // snapshot turn (null on the final record)
+  "final": false,                     // false = per-turn snapshot, true = session end
   "indicators": { "letMe": 1, "we": 179, "lets": 88, "i": 17,
                   "p50BlockChars": 111, "visibleReplies": 1,
                   "firstLines": { "we-need": 120, "other": 73 } },

@@ -18,7 +18,7 @@
 - **指标**：`let me` / `we` / `let's` / `I` 计数、首行模式（`We need…` / `The user wants…` / `Let me…` / `I…`）、块长中位数、阶段性可见回复数。
 - **判定**：加权距离匹配内置基线画像 + 置信度；满 N 块（默认 10，可配置）才下结论。无法可靠归类的轨迹——低置信、或 `we` 与 `let me` 同时偏高（router-standard 的**过渡带**）——显示为"过渡带 / 不确定"，不硬套可能错误的标签。
 - **可扩展**：画像族与各维度权重均可编辑（Web 设置页或 cordis 配置）。
-- **记录模式**：会话结束时落一条聚合 JSON 记录（事件和/或 JSONL）——用真实数据校准基线的测量仪器。
+- **记录模式**：每个 turn 结束落一条累计 JSON 快照（事件和/或 JSONL；DSH 会话极少销毁，所以快照在每次 turn/end 落盘）——用真实数据校准基线的测量仪器。
 - **隐私**：只有聚合数据离开 host 计算；原始思维链文本从不记录、从不传输。
 
 ## 安装
@@ -43,7 +43,7 @@ dsh plugin --profile web add github:Chloride233/dsh-cot-profile
     weights: {}                # 各维度权重；{} = 内置默认
     profiles: []               # 自定义画像族；[] = 内置基线
     record:
-      emit: true               # 会话结束时发 cot-profile/record 事件
+      emit: true               # 每 turn 发 cot-profile/record（会话结束也发）
       file: ''                 # 可选 JSONL 路径（~ 开头会自动展开为用户主目录）
 ```
 
@@ -85,7 +85,7 @@ sh scripts/install-patch.sh
 | --- | --- |
 | 投影键 | `cot-profile`——任意会话级槽位用 `useProjection('cot-profile')` 读取（类型见 `lib/index.d.ts` 的 `CotProfileView`） |
 | `cot-profile/update` | `{ sessionId, blocks, counts, firstLines, p50BlockChars, visibleReplies, vector, judgment, ui, revision, seq }`（500ms 节流） |
-| `cot-profile/record` | 会话结束时的聚合记录（仅当会话有 ≥1 个 reasoning 块） |
+| `cot-profile/record` | 每 turn/end 一条累计快照 + 会话结束一条最终记录（仅当会话有 ≥1 个 reasoning 块） |
 
 ### 记录 schema（v1）
 
@@ -99,6 +99,8 @@ sh scripts/install-patch.sh
   "provider": "deepseek",               // 已知时（agent/request 捕获）
   "model": "deepseek-v4-pro",           // 已知时
   "reasoningBlocks": 193,
+  "turn": 4,                          // 快照所在 turn（final 记录为 null）
+  "final": false,                     // false = 每 turn 累计快照，true = 会话结束
   "indicators": { "letMe": 1, "we": 179, "lets": 88, "i": 17,
                   "p50BlockChars": 111, "visibleReplies": 1,
                   "firstLines": { "we-need": 120, "other": 73 } },

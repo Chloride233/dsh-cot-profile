@@ -160,7 +160,8 @@ reasoning 措辞的统计指标（`let me` / `we` / `let's` / `I` 计数、块�
 
 ### 7.1 触发与落点
 
-- 触发：会话结束（`session/disposed`）时输出一条记录。
+- 触发：每 turn 结束（`turn/end`）输出一条累计快照（`final: false`）；会话结束（`session/disposed`）
+  输出最终记录（`final: true`）。DSH 会话极少销毁，turn 级快照是常态落盘。
 - 落点（可配置）：
   - `record.emit`（默认 true）：发 `cot-profile/record` 事件，供其他插件自选消费；
   - `record.file`（默认空 = 不写文件）：非空时追加一行 JSON 到该路径（JSONL）。
