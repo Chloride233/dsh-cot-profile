@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { groupRecords, aggregateRecords, profileFromGroup, profileIdFromGroup, resolveRecordPath, VECTOR_DIMS } from '../lib/calibrate.js';
+import { groupRecords, aggregateRecords, profileFromGroup, profileIdFromGroup, resolveRecordPath, judgmentDistribution, baselineDiff, VECTOR_DIMS } from '../lib/calibrate.js';
 
 const BASE_VECTOR = { letMe100: 0, we100: 126, lets100: 60, i100: 10, p50BlockChars: 182, visibleReplies100: 0.5 };
 
@@ -86,4 +86,32 @@ test('profileFromGroup builds an applicable profile candidate', () => {
   assert.equal(profile.name, 'deepseek-v4-pro (measured)');
   assert.match(profile.description, /2 session record\(s\)/);
   assert.equal(profile.vector.we100, 130);
+});
+
+test('judgmentDistribution buckets session judgments', () => {
+  const records = [
+    { judgment: { family: 'minimal-like', mixed: false } },
+    { judgment: { family: 'minimal-like', mixed: false } },
+    { judgment: { mixed: true } },
+    { judgment: { family: 'standard-like', mixed: false } },
+    { judgment: {} },
+  ];
+  assert.deepEqual(judgmentDistribution(records), { spec: 2, react: 1, gray: 0, mixed: 1, sampling: 1 });
+});
+
+test('baselineDiff matches the nearest baseline and signs the diff', () => {
+  const profiles = [
+    { id: 'minimal-like', vector: { we100: 126, letMe100: 0.2, i100: 10, p50BlockChars: 182, visibleReplies100: 0.5, lets100: 60, firstLineWeNeed: 0.6, firstLineUserWants: 0.02, firstLineLetMe: 0.01, firstLineI: 0.02, firstLineOther: 0.35 } },
+    { id: 'standard-like', vector: { we100: 14, letMe100: 208, i100: 195, p50BlockChars: 494, visibleReplies100: 44, lets100: 1, firstLineWeNeed: 0.05, firstLineUserWants: 0.45, firstLineLetMe: 0.3, firstLineI: 0.1, firstLineOther: 0.1 } },
+  ];
+  const specish = { we100: 150, letMe100: 0, i100: 12, p50BlockChars: 200, visibleReplies100: 1, lets100: 55, firstLineWeNeed: 0.7, firstLineUserWants: 0, firstLineLetMe: 0, firstLineI: 0, firstLineOther: 0.3 };
+  const out = baselineDiff(specish, profiles);
+  assert.equal(out.profileId, 'minimal-like');
+  assert.ok(out.diffs.we100 > 0); // observed above baseline
+  assert.ok(out.diffs.letMe100 < 0); // observed below baseline
+  assert.equal(typeof out.distance, 'number');
+});
+
+test('baselineDiff handles an empty profile list', () => {
+  assert.deepEqual(baselineDiff({ we100: 1 }, []), { profileId: null, distance: null, diffs: {} });
 });

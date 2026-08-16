@@ -9,4 +9,4 @@
         panelMode: overlay
         record:
           emit: true
-          file: ''
+          file: /tmp/cot-records-test.jsonl
