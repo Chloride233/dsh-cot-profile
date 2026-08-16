@@ -138,6 +138,19 @@ Three layers, in increasing strength:
 
 The honest limit: wording is a fault-line fingerprint, so "verified" here means *consistent with real model trajectories under known assemblies* — it cannot prove which model is running (no single-assembly wording can).
 
+### Controlled probes (your environment, your assembly)
+
+The golden data validates the judgment against someone else's probes; for **your** model, your harness, your task, run controlled probes:
+
+1. **Pick a known assembly.** A spec-side trajectory comes from the minimal/RL-reduced assembly (`We` voice, let me ≈ 0); a react-side from a Standard/PTC-style assembly (`The`/`Let` voice); a mixed-side from an intermediate persona. The `dsh-router-standard` preset family is a ready source of both persona sides.
+2. **Run one micro-task session per probe** — e.g. "inspect the repository, then locate and read the README" (the router probes' micro-task), one short task per session, reasoning visible.
+3. **Export and verify:**
+   ```bash
+   node scripts/probe-verify.mjs --expect spec ~/.dsh/sessions/<ws>/<session>/session.jsonl.zstd
+   node scripts/probe-verify.mjs --expect react --dir ~/.dsh/sessions/probe-react
+   ```
+   The script replays each log through the plugin's fold, reports the verdict per session, and fails on direction errors (a spec-expect session judged react-side, or vice versa). A transition-band verdict under a spec/react expectation is *conservative* (data-insufficient), not an error — consistent with the golden criteria.
+
 ## Upstream wishlist
 
 Both are temporary gaps in DeepSeek Harness 0.1.0-rc.6 this plugin works around:

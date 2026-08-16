@@ -138,6 +138,19 @@ npm test          # node --test test/*.test.js（零依赖）
 
 诚实的边界：措辞是断层侧指纹，所以这里的"验证通过"意味着**与已知装配下的真实模型轨迹一致**——它不能证明当前跑的是哪个模型（单一装配下的措辞做不到）。
 
+### 受控探针（你的环境、你的装配）
+
+金标准数据验证的是判定逻辑在他人探针上的表现；要在**你自己的模型、你的 harness、你的任务**下验证：
+
+1. **选一个已知装配**。spec 侧轨迹来自 minimal/RL 极简装配（`We` 口吻、let me ≈ 0）；react 侧来自 Standard/PTC 类装配（`The`/`Let` 口吻）；混合侧来自中间态 persona。`dsh-router-standard` 的预设族是现成的两侧来源。
+2. **每个探针跑一个微任务会话**——如"检查仓库，然后定位并阅读 README"（router 探针用的微任务），每次一个短任务、让思维链可见。
+3. **导出并验证**：
+   ```bash
+   node scripts/probe-verify.mjs --expect spec ~/.dsh/sessions/<工作区>/<session>/session.jsonl.zstd
+   node scripts/probe-verify.mjs --expect react --dir ~/.dsh/sessions/probe-react
+   ```
+   脚本把每个日志回放进插件的 fold，逐会话报告判定；遇到方向错误（spec 预期被判成 react 侧，或反之）即失败。spec/react 预期下出现过渡带判定属"保守"（数据不足），不算错误——与金标准判据一致。
+
 ## Upstream wishlist
 
 以下均为 DeepSeek Harness 0.1.0-rc.6 的临时缺口，本插件暂以变通方式绕过：
