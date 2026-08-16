@@ -100,7 +100,7 @@
 
 ---
 
-**dsh-cot-profile** 是 DeepSeek Harness 的实时思维链轨迹画像插件：监听会话 reasoning 流，统计措辞指纹（`let me` / `we` / `let's` / `I`、首行模式、块长、阶段回复），用加权距离匹配内置基线，实时判定当前会话的画像族（minimal-like / standard-like / gray-like）并给出置信度。
+**dsh-cot-profile** 是 DeepSeek Harness 的实时思维链轨迹画像插件。与常见的工具型插件不同，它是**分析测量类**：不替你操作，而是把模型思考的措辞指纹变成实时可观测的画像证据——监听会话 reasoning 流，统计措辞指纹（`let me` / `we` / `let's` / `I`、首行模式、块长、阶段回复），用加权距离匹配内置基线，实时判定当前会话的画像族（minimal-like / standard-like / gray-like）并给出置信度。
 
 | minimal-like 判定 | standard-like 判定 |
 |---|---|
