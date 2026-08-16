@@ -131,7 +131,8 @@ Three layers, in increasing strength:
 
 1. **Unit tests** (`test/analyzer.test.js`, `test/projection.test.js`) — the pure logic: tokenization, counts, vectors, weighted distance, transition-band detection. Deterministic, fast.
 2. **Golden verification against real model data** (`test/golden-verify.test.js` + `test/golden/probes.csv`) — 119 real DeepSeek V4 Pro / V4 Flash single-request probe runs from [`yjh051108/dsh-router-standard`](https://github.com/yjh051108/dsh-router-standard) (MIT, see `test/golden/NOTICE`), each with a ground-truth lexicon classification and the same wording metrics this plugin consumes. Current results: **spec-side runs 83/83 judged spec-side (100%), zero direction errors, react-side runs never misjudged spec-side, ambiguous runs flagged as the transition band ≥55%**. This validates discrimination against real model behavior, not just self-consistency.
-3. **Record-mode calibration** (see above) — the plugin's own session records accumulate per-model aggregates you can inspect in the settings UI and apply as measured baselines.
+3. **End-to-end replay verification** (`scripts/replay-verify.mjs`) — replays a real DSH session log (`session.jsonl.zstd`) through the projection fold and cross-checks every statistic against an independent ground-truth tally over the raw reasoning texts. Verified on the session logs in this repo's history: **all reasoning blocks, counts, first-line patterns, and block-length medians match exactly**. This validates the monitoring chain (event stream → fold → stats) that unit tests cannot cover.
+4. **Record-mode calibration** (see above) — the plugin's own session records accumulate per-model aggregates you can inspect in the settings UI and apply as measured baselines.
 
 The honest limit: wording is a fault-line fingerprint, so "verified" here means *consistent with real model trajectories under known assemblies* — it cannot prove which model is running (no single-assembly wording can).
 

@@ -131,7 +131,8 @@ npm test          # node --test test/*.test.js（零依赖）
 
 1. **单元测试**（`test/analyzer.test.js`、`test/projection.test.js`）——纯逻辑：tokenize、计数、向量、加权距离、过渡带检测。确定性、快速。
 2. **真实模型数据的金标准验证**（`test/golden-verify.test.js` + `test/golden/probes.csv`）——119 个真实 DeepSeek V4 Pro / V4 Flash 单请求探针 run，来自 [`yjh051108/dsh-router-standard`](https://github.com/yjh051108/dsh-router-standard)（MIT，见 `test/golden/NOTICE`），每个 run 带已知的词法真值分类与本插件同口径的措辞指标。当前结果：**spec 侧 83/83 判对（100%）、方向错误为零、react 侧永不误判为 spec 侧、ambiguous 有 ≥55% 被标记为过渡带**。这验证的是对真实模型行为的判别力，而不只是逻辑自洽。
-3. **记录模式校准**（见上文）——插件自己的会话记录按模型积累聚合数据，可在设置页查看并一键应用为实测基线。
+3. **端到端回放验证**（`scripts/replay-verify.mjs`）——把真实 DSH 会话日志（`session.jsonl.zstd`）回放进投影 fold，并用独立的真值统计（直接对原始 reasoning 文本计数）逐字段对照。在本仓库历史会话日志上验证：**所有 reasoning 块、四计数、首行分布、块长中位数全部精确一致**。这验证的是单元测试覆盖不到的监测链（事件流 → fold → 统计）。
+4. **记录模式校准**（见上文）——插件自己的会话记录按模型积累聚合数据，可在设置页查看并一键应用为实测基线。
 
 诚实的边界：措辞是断层侧指纹，所以这里的"验证通过"意味着**与已知装配下的真实模型轨迹一致**——它不能证明当前跑的是哪个模型（单一装配下的措辞做不到）。
 
