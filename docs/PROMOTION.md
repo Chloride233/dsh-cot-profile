@@ -83,20 +83,27 @@
 
 ## 文案全文
 
-### 文案① GitHub Discussions 自荐帖（英文）
+### 文案① GitHub Discussions 自荐帖（英文 · 润色版）
 
 > **dsh-cot-profile: real-time reasoning-trajectory profiling for DSH**
 >
-> I built a plugin that watches the reasoning stream live and classifies the current session's trajectory family from wording fingerprints (`let me` / `we` / `let's` / `I`, first-line patterns, block lengths, interim replies). The indicators come from the public aggregate analysis in xiaobright/modeltest; the judgment is a weighted-distance match against built-in baselines, with an explicit honest boundary — it describes the *(model × assembly)* trajectory, not model identity.
+> **TL;DR** — a DSH plugin that watches the reasoning stream as it happens and classifies the session's trajectory family from wording fingerprints (`let me` / `we` / `let's` / `I`, first-line patterns, block-length median, interim replies). Judgment is a weighted-distance match against built-in baselines, with confidence.
 >
-> Highlights:
-> - Live session-header badge + panel, updated by the session-projection push stream (no polling)
-> - Per-turn record mode (aggregates only — never raw reasoning), GUI calibration: scan records → group by model/preset → one-click apply as your own baseline
-> - Pure analyzer/projection modules, 30+ zero-dependency unit tests
+> **Why** — model research (xiaobright/modeltest) shows that reasoning wording separates trajectory families sharply: anchored/minimal runs are we/let's-heavy with `let me` ≈ 0, standard-like runs flip that. That separation is a live, observable signal — so I built a live instrument around it.
+>
+> **What it does**
+> - Live session-header badge + verdict-first panel, driven by the session-projection push stream (no polling, resume-safe)
+> - Raw indicators always shown alongside the verdict — evidence over judgment
+> - Per-turn record mode — aggregates only, never raw reasoning text
+> - GUI calibration: scan records → group by provider/model/preset → baseline diff & judgment distribution → one-click apply as your own baseline
+>
+> **Honest boundary** — wording fingerprints describe the *(model × assembly)* combination, not model identity (the research's own Flash counterexample: same wording pattern, different model). The tool gives evidence; conclusions are yours.
+>
+> **Engineering** — pure analyzer/projection modules, 40 zero-dependency unit tests, bilingual README, MIT.
 >
 > Install: `dsh plugin --profile web add github:Chloride233/dsh-cot-profile`
 >
-> Happy to hear feedback on the judgment design or the calibration workflow. (Discussion, not a PR — per CONTRIBUTING, community plugins live in their own repos.)
+> Open to feedback on the judgment design and the calibration workflow. (Posted as a discussion per CONTRIBUTING — community plugins live in their own repos.)
 
 ### 文案② dsh-ecosystem 收录请求（英文 issue）
 
