@@ -36,7 +36,7 @@ Configuration lives in the `cot-profile` plugin row (`cordis.patch.yml` of this 
 ```yaml
 - id: cot-profile
   config:
-    minBlocksForJudgment: 10   # verdict only after N reasoning blocks
+    minBlocksForJudgment: 3    # verdict after N reasoning blocks (3 default; confidence+transition guard short tasks)
     badge: true                # session-header badge
     panel: true                # real-time panel
     panelMode: overlay         # 'overlay' (default, zero risk) | 'track' (experimental right column)

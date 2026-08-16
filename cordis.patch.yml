@@ -3,7 +3,7 @@
     - id: cot-profile
       name: 'dsh-cot-profile'
       config:
-        minBlocksForJudgment: 10
+        minBlocksForJudgment: 3
         badge: true
         panel: true
         panelMode: overlay

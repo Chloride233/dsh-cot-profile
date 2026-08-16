@@ -36,7 +36,7 @@ dsh plugin --profile web add github:Chloride233/dsh-cot-profile
 ```yaml
 - id: cot-profile
   config:
-    minBlocksForJudgment: 10   # 满 N 块 reasoning 才给判定
+    minBlocksForJudgment: 3    # 满 N 块 reasoning 才给判定（默认 3；置信度+过渡带兜底短任务）
     badge: true                # 会话头部徽章
     panel: true                # 实时面板
     panelMode: overlay         # 'overlay'（默认，零风险）| 'track'（实验性右侧轨道栏）

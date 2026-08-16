@@ -89,7 +89,7 @@ function verdictOf(path) {
     }
   }
   const view = renderView(state, {
-    minBlocksForJudgment: 10,
+    minBlocksForJudgment: 3,
     weights: {},
     profiles: [],
     badge: true,
