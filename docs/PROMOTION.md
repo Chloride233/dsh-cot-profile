@@ -102,9 +102,9 @@
 
 **dsh-cot-profile** 是 DeepSeek Harness 的实时思维链轨迹画像插件：监听会话 reasoning 流，统计措辞指纹（`let me` / `we` / `let's` / `I`、首行模式、块长、阶段回复），用加权距离匹配内置基线，实时判定当前会话的画像族（minimal-like / standard-like / gray-like）并给出置信度。
 
-| 实时判定面板 | 实时判定面板 |
+| minimal-like 判定 | standard-like 判定 |
 |---|---|
-| ![面板](https://github.com/Chloride233/dsh-cot-profile/raw/main/docs/screenshots/panel-verdict.png) | ![面板](https://github.com/Chloride233/dsh-cot-profile/raw/main/docs/screenshots/calibration.png) |
+| ![minimal-like](https://github.com/Chloride233/dsh-cot-profile/raw/main/docs/screenshots/panel-verdict.png) | ![standard-like](https://github.com/Chloride233/dsh-cot-profile/raw/main/docs/screenshots/panel-standard.png) |
 
 ## 功能
 

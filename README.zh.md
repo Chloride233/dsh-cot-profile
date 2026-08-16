@@ -23,9 +23,9 @@
 
 ## 截图
 
-| 实时判定面板（两种画像） |
+| minimal-like 判定 | standard-like 判定 |
 |---|---|
-| ![判定面板](docs/screenshots/panel-verdict.png) | ![判定面板 2](docs/screenshots/calibration.png) |
+| ![minimal-like 判定](docs/screenshots/panel-verdict.png) | ![standard-like 判定](docs/screenshots/panel-standard.png) |
 
 ## 安装
 
