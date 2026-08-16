@@ -10,7 +10,9 @@ Wording fingerprints describe the **(model × assembly) combination** — system
 
 [`yjh051108/dsh-router-standard`](https://github.com/yjh051108/dsh-router-standard) maps the same lexicon onto a **fault line**: along the persona axis, V4 Pro behavior collapses into three bands — **spec** (collective `We`, let me ≈ 0), a **transition band** (`mixed`: `We`/`The`/`Let` mixing, unstable), and **react** (first-person `The`/`Let`, we ≈ 0). Neither side is universally "stronger" (maintenance tasks favor the spec side; greenfield builds favor the react side). The author's own correction note rejects any reading of the wording as model identity or capability proof.
 
-This plugin tells you **which trajectory side the current session behaves like** (spec-like / react-like / gray-like), flags the **transition band explicitly as "不确定"** instead of forcing a label, and shows you the raw indicators side by side, so you draw your own conclusions. It does not assert "this is model X".
+This plugin tells you **which trajectory side the current session behaves like** (minimal-like / standard-like / ambiguous), flags the **transition band explicitly as "不确定"** instead of forcing a label, and shows you the raw indicators side by side, so you draw your own conclusions. It does not assert "this is model X".
+
+**Where the family names come from:** `minimal-like` / `standard-like` / `ambiguous` are the labels of the lexicon classifier in [`xiaobright/modeltest`](https://github.com/xiaobright/modeltest) (`evaluator/trigger_probe/src/classifier.mjs`, MIT) — trajectories are named after the DSH preset they appear under (the `minimal` preset's collective `We` voice vs the `standard` preset's first-person `Let me` voice), with `ambiguous` for unclassifiable runs. [`yjh051108/dsh-router-standard`](https://github.com/yjh051108/dsh-router-standard) later mapped the same lexicon onto the spec/mixed/react bands. This plugin keeps the classifier labels as profile ids and the bands as the professional-level vocabulary.
 
 ## Features
 

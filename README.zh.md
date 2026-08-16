@@ -10,7 +10,16 @@
 
 [`yjh051108/dsh-router-standard`](https://github.com/yjh051108/dsh-router-standard) 把同一套词法映射到一条**断层线**：沿 persona 轴，V4 Pro 行为坍缩为三段带——**spec**（集体 `We`，let me ≈ 0）、**过渡带**（`mixed`：`We`/`The`/`Let` 混合、不稳定）、**react**（第一人称 `The`/`Let`，we ≈ 0）。两侧没有普遍"更强"（维护任务偏好 spec 侧、greenfield 构建偏好 react 侧）；作者勘误明确反对把措辞读成模型身份或能力证据。
 
-因此本插件回答的是**"当前会话的轨迹落在断层的哪一侧"**（spec 侧 / react 侧 / 灰测侧），把**过渡带显式标记为"不确定"**而不是硬套标签，并把原始指标并列展示，结论由你自己下。**不做"这就是某模型"的断言**。
+因此本插件回答的是**"当前会话的轨迹落在断层的哪一侧"**（minimal-like / standard-like / ambiguous），把**过渡带显式标记为"不确定"**而不是硬套标签，并把原始指标并列展示，结论由你自己下。**不做"这就是某模型"的断言**。
+
+**画像族名字的来源**：`minimal-like` / `standard-like` / `ambiguous` 是
+[`xiaobright/modeltest`](https://github.com/xiaobright/modeltest) 探针分类器
+（`evaluator/trigger_probe/src/classifier.mjs`，MIT）的标签——轨迹按它出现时的
+DSH 预设命名（`minimal` 预设的集体 `We` 口吻 vs `standard` 预设的第一人称
+`Let me` 口吻），无法归类的叫 `ambiguous`。
+[`yjh051108/dsh-router-standard`](https://github.com/yjh051108/dsh-router-standard)
+随后把同一词法映射到 spec/mixed/react 三带。本插件沿用分类器标签作画像族 id，
+三带作为专业层词汇。
 
 ## 功能
 
