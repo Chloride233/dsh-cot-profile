@@ -11,8 +11,8 @@
 | GitHub Discussions | deepseek-ai/deepseek-harness → Discussions | 讨论帖（英文）| 无（GitHub 账号）| 任何时间，工作日白天 | 文案① |
 | 生态地图收录 | zoahdev/dsh-ecosystem → Issues | 收录请求 | 无 | 发完自荐帖之后 | 文案② |
 | Linux.do | linux.do → 技术分享板块 | 帖子（中文）| 注册账号 | 国内晚上（高活跃）| 文案③ |
-| Show HN | news.ycombinator.com | Show HN 帖（英文）| 账号 karma 门槛 | 美东早 8–10 点（对应北京晚 8–10 点）| 文案④ |
-| 掘金 / 知乎 | juejin.cn / zhihu.com | 技术文章 | 注册 | 发完视频后（互相引流）| 视频文案 + 扩展 |
+| ~~Show HN~~ | 不采用 | — | — | — | — |
+| ~~掘金 / 知乎~~ | 不采用 | — | — | — | — |
 | 生态联动 | 作者仓库 issue / X 私信 | 互链请求 | 礼貌即可 | 其他渠道跑完后 | 文案⑤⑥ |
 
 ---
@@ -72,9 +72,10 @@
 ```
 第 1 步（今天）：① GitHub Discussions 自荐帖
 第 2 步（明天）：② dsh-ecosystem 收录请求 + ⑥ 两位作者的互链请求
-第 3 步（视频发布后）：③ Linux.do 帖子（带视频）+ ⑤ 图文版
-第 4 步（攒够 karma 后）：④ Show HN
+第 3 步（视频发布后）：③ Linux.do 帖子（带视频）
 ```
+
+> 已确认：④ Show HN 与 ⑤ 掘金/知乎 不采用。
 
 原则：**先官方生态、再中文社区、最后英文圈**；每个渠道的文案都要带一句"这是行为画像不是模型身份"的诚实声明——这是项目可信度的标志，也是社区最看重的点。
 
